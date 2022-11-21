@@ -32,16 +32,18 @@ const users = [
     {name: 'Pablo',age: 35,city: 'Madrid',hobbies: ['fútbol', 'poker', 'programar'],},
 ];
 
-
 function getUniqueListObj(arr) {
-    const ids = arr.map(o => o.name);
-    const set_names = [...new Set(ids)];
+    let objToString = [];
     let filtered =[];
-    for (i of set_names){
-        index = set_names.indexOf(i);
-        filtered.push(arr[index]);
+    let filtered2 =[];
+    for (const i of arr){
+        objToString.push(JSON.stringify(arr[arr.indexOf(i)]));
     }
-    return filtered;
+    filtered =[...new Set(objToString)];
+    for (const i of filtered){
+        filtered2.push(JSON.parse(filtered[filtered.indexOf(i)]));
+    }
+    return filtered2;
 }
 
 console.log(getUniqueListObj(users));
