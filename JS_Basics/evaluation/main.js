@@ -39,11 +39,13 @@ function delete_spent(del_key){
 }
 
 function show_spent_list(){
-    console.log("=====================================");
+    document.write("=====================================\n");
     for (var a in localStorage) {
-        console.log(a, ' = ', localStorage[a]);
+        document.write('\n');
+        document.write(a, ' = ', localStorage[a]);
+        document.write('\n');
      }
-    console.log("=====================================");
+     document.write("=====================================\n");
 
 }
 
@@ -51,13 +53,15 @@ var option = 0
 while (option != 7) {    
         console.log("+=====================================+");        
         console.log("| Choose the desired option: ");
-        console.log("| 1 - Add a spent");        
-        console.log("| 2 - Modify a spent");        
-        console.log("| 3 - Delete a spent");        
-        console.log("| 4 - Show list of spents");        
+        console.log("| 1 - Add a spent");
+        let size = localStorage.length;
+        if (size > 0){        
+            console.log("| 2 - Modify a spent");        
+            console.log("| 3 - Delete a spent");        
+            console.log("| 4 - Show list of spents");
+        }        
         console.log("| 7 - Exit");        
         console.log("+=====================================+");
-
 
         option = prompt('Introduce the desired option:');
         if (option == 1){
@@ -74,11 +78,11 @@ while (option != 7) {
             delete_spent(mod);
         }
         else if (option == 4){
-            console.log("Here you could see the list of money spented");
+            document.write("Here you could see the list of money spented\n");
             show_spent_list();
         }
         else if (option == 7){
-            console.log("See you soon!");
+            document.write("See you soon!");
             break;
         }
   }
