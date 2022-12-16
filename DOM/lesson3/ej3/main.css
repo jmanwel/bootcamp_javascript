@@ -1,0 +1,25 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+section{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.color-container{
+    border: solid;
+    display: grid;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+}
+
+.btn{
+    margin-top: 10%;
+}
