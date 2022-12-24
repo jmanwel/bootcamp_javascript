@@ -39,13 +39,13 @@ function delete_spent(del_key){
 }
 
 function show_spent_list(){
-    document.write("=====================================\n");
+    console.log("=====================================\n");
     for (var a in localStorage) {
-        document.write('\n');
-        document.write(a, ' = ', localStorage[a]);
-        document.write('\n');
+        console.log('\n');
+        console.log(a, ' = ', localStorage[a]);
+        console.log('\n');
      }
-     document.write("=====================================\n");
+     console.log("=====================================\n");
 
 }
 
@@ -78,7 +78,7 @@ while (option != 7) {
             delete_spent(mod);
         }
         else if (option == 4){
-            document.write("Here you could see the list of money spented\n");
+            console.log("Here you could see the list of money spent\n");
             show_spent_list();
         }
         else if (option == 7){
