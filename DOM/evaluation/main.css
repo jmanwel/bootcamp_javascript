@@ -12,6 +12,12 @@ h1 {
     font-style: italic;
 }
 
+footer{
+    margin-top: 5ex;
+    margin-bottom: 3ex;
+    padding-bottom: 2ex;
+}
+
 .row{
     display: flex;
     justify-content: center;
@@ -35,9 +41,9 @@ h1 {
     border-radius: 50%;
 }
 
-#search {
-    width: 600px;
-    margin-left: 28ex;
+.input-group {
+    padding-left: 1rem;
+
 }
 
 #showModal {
