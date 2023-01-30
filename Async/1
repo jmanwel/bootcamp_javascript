@@ -1,0 +1,5 @@
+/home/jmg/script/loader.sh: line 16: kill: 5399frames=/: arguments must be process or job IDs
+/home/jmg/script/loader.sh: line 16: kill: |: arguments must be process or job IDs
+/home/jmg/script/loader.sh: line 16: kill: \: arguments must be process or job IDs
+/home/jmg/script/loader.sh: line 16: kill: -: arguments must be process or job IDs
+/home/jmg/script/loader.sh: line 16: kill: (2) - Operation not permitted
