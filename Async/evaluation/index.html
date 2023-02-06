@@ -12,6 +12,7 @@
     <link href="/fontawesome-free-6.2.1-web/css/brands.css" rel="stylesheet">
     <link href="/fontawesome-free-6.2.1-web/css/solid.css" rel="stylesheet">
     <link href="main.css" rel="stylesheet">
+    <link href="login.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script><!-- JavaScript -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/><!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/><!-- Default theme -->
@@ -36,31 +37,33 @@
                         <a id="modal_a" target="_blank">Oficial website</a>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <a><i class="fa-regular fa-heart"></i></a>
+                    <a><i class="fa-regular fa-bell"></i></a>
+                    <br>
+                    
                 </div>
             </div>
         </div>
     </div>
     <!--MODAL DETAIL END HERE-->
     <!--MODAL LOGIN START HERE-->
-    <div class="modal fade text-center" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="">
-                        <label for="myEmailLogin">Enter your mail address</label>
-                        <div class="mb-3 mt-3">
+            <div class="full-screen-container">
+                <div class="modal-body login-container">
+                    <h1 class="login-title" id="loginModalLabel">Welcome</h1>
+                    <form class="form">
+                        <div class="input-group">
+                            <label for="myEmailLogin">Enter your mail address</label>
                             <input type="text" id="myEmailLogin"/>
+                            <span class="msg">Valid email</span>
                         </div>
-                        <label for="myPasswordLogin">Type your password</label>
-                        <div class="mb-3 mt-3">
-                            <input type="password" id="myPasswordLogin" />
-                        </div>
-                        <input id ="login_b" class="btn btn-primary mt-5" type="submit" value="Login"/>
+                        <div class="input-group">
+                            <label for="myPasswordLogin">Type your password</label>
+                            <input type="password" id="myPasswordLogin" />                            
+                            <span class="msg">Incorrect password</span>
+                        </div>        
+                        <button id="login" class="login-button" type="submit">Login</button>                
                     </form>
                 </div>
             </div>
@@ -104,6 +107,8 @@
             <br>
             <div class="row">
             </div>
+            <h1 class="text-center"></h1>
+
         </div>
     </div>
     <footer class="text-center" style="background-color: #f1f1f1;">

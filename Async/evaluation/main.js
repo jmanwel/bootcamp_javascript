@@ -17,24 +17,18 @@ A nivel más técnico, la aplicación debe cumplir los siguientes requisitos:
 * Se deben controlar todos los posibles errores que puedan surgir en la aplicación, 
 avisando al usuario de los mismos.
 
-function setFav(title) {}
-function setPend(title) {}
-
-PAGINACION
-IDENTIFICAR PROXIMOS ESTRENOS
-
 */
-const API_KEY_THE_MOVIE_DB = "c05918447e59efae982725f11c9894ea";
+const API_KEY_THE_MOVIE_DB = "";
 const BASE_URL_THE_MOVIE_DB = "https://api.themoviedb.org/3";
 const row = document.querySelector('.row');
 const URL_THE_MOVIE_DB_ON_SCREEN = `${BASE_URL_THE_MOVIE_DB}/movie/now_playing?api_key=${API_KEY_THE_MOVIE_DB}&language=en-US&page=1`;
 const button_search = document.querySelector("#button_search");
 const logon = document.querySelector("#logon");
-const login = document.querySelector("#login_b");
+const login = document.querySelector("#login");
 const logout = document.querySelector("#logout");
-const fav = document.querySelector("#fav");
-const pend = document.querySelector("#pend");
 const user_hello = document.querySelector("#user_hello");
+const go_to_fav = document.querySelector("#fav");
+const go_to_pend = document.querySelector("#pend");
 
 async function getDataFromUrl(u){
     try {
@@ -90,9 +84,11 @@ function showDetails (id){
     let a = document.querySelector("#modal_a");
     let p = document.querySelector("#modal_p");
     let p_data = document.querySelector("#modal_p_data");
+    let heart = document.querySelector(".fa-heart");
+    let bell = document.querySelector(".fa-bell");
     let p_data_money = document.querySelector("#modal_p_data_money");
+    let existing = JSON.parse(localStorage.getItem(localStorage.getItem("user_active")));    
     getDataFromUrl(url_details).then((json)=>{
-        console.log(json)
         h5.textContent = json.title;
         img.src = `https://image.tmdb.org/t/p/w300/${json.poster_path}`;
         img.alt = json.tagline;
@@ -100,6 +96,46 @@ function showDetails (id){
         p.textContent = json.overview;
         p_data.textContent = `Language: ${json.original_language} | Released on: ${json.release_date} | Popularity: ${json.popularity}`;
         p_data_money.textContent = `Budget: ${json.budget} | Revenue on: ${json.revenue}`;
+        if (existing.fav.includes(id)){
+            heart.classList.add('text-danger');
+        }
+        else{
+            heart.classList.remove('text-danger');
+        }
+        if (existing.pending.includes(id)){
+            bell.classList.add('text-warning');
+        }else{
+            bell.classList.remove('text-warning');
+        }
+        heart.addEventListener('click', (e) => {
+            if (!existing.fav.includes(id)){
+                existing.fav.push(id);
+                localStorage.setItem(localStorage.getItem("user_active"), JSON.stringify(existing));
+                alertify.success('Succesfully added to fav');
+                
+            }
+            else{
+              existing.fav =  existing.fav.filter(i => i != id);
+              localStorage.setItem(localStorage.getItem("user_active"), JSON.stringify(existing));
+              alertify.success('Succesfully deleted to fav');
+
+            }
+        e.preventDefault();
+        });
+        bell.addEventListener('click', (e) => {
+            if (!existing.pending.includes(id)){
+                existing.pending.push(id);
+                localStorage.setItem(localStorage.getItem("user_active"), JSON.stringify(existing));
+                alertify.success('Succesfully added to pend');
+                
+            }
+            else{
+              existing.pending =  existing.pending.filter(i => i != id);
+              localStorage.setItem(localStorage.getItem("user_active"), JSON.stringify(existing));
+              alertify.success('Succesfully deleted to pend');
+            }
+        e.preventDefault();
+        });
     });
 }
 
@@ -123,6 +159,74 @@ button_search.addEventListener('click', (e) => {
     e.preventDefault();
 });
 
+go_to_fav.addEventListener('click', (e) => {
+    let fav_array_id = JSON.parse(localStorage.getItem(localStorage.getItem("user_active"))).fav;
+    if (fav_array_id.length > 0){
+        row.textContent = "";        
+        for (let i=0; i< fav_array_id.length;i++){   
+            let url_details_fav = `${BASE_URL_THE_MOVIE_DB}/movie/${fav_array_id[i]}?api_key=${API_KEY_THE_MOVIE_DB}`;
+            getDataFromUrl(url_details_fav).then((j)=>{
+                let div = document.createElement("div");
+                div.classList.add('card', 'd-flex', 'justify-content-between');
+                let p = document.createElement("p");
+                p.setAttribute('hidden', 'hidden');
+                p.textContent = j.id;
+                let a = document.createElement("a");
+                a.classList.add('w-50', 'text-dark');
+                a.textContent = j.original_title;
+                a.href = "some";
+                a.target = "_blank";
+                a.setAttribute("onclick", `showDetails(${j.id})`);
+                a.setAttribute("data-bs-toggle", "modal"); 
+                a.setAttribute("data-bs-target", "#exampleModal");
+                let img = document.createElement("img");        
+                img.src = `https://image.tmdb.org/t/p/w500/${j.poster_path}`;
+                div.append(img);
+                div.append(a);
+                div.append(p);
+                row.append(div);
+            });
+        }
+    }else{
+        alertify.error('No fav to show');
+    }
+    e.preventDefault();
+});
+
+go_to_pend.addEventListener('click', (e) => {
+    let pend_array_id = JSON.parse(localStorage.getItem(localStorage.getItem("user_active"))).pending;
+    if (pend_array_id.length > 0) {
+        row.textContent = "";        
+        for (let i=0; i< pend_array_id.length;i++){   
+            let url_details_pend = `${BASE_URL_THE_MOVIE_DB}/movie/${pend_array_id[i]}?api_key=${API_KEY_THE_MOVIE_DB}`;            
+            getDataFromUrl(url_details_pend).then((j)=>{
+                let div = document.createElement("div");
+                div.classList.add('card', 'd-flex', 'justify-content-between');
+                let p = document.createElement("p");
+                p.setAttribute('hidden', 'hidden');
+                p.textContent = j.id;
+                let a = document.createElement("a");
+                a.classList.add('w-50', 'text-dark');
+                a.textContent = j.original_title;
+                a.href = "some";
+                a.target = "_blank";
+                a.setAttribute("onclick", `showDetails(${j.id})`);
+                a.setAttribute("data-bs-toggle", "modal"); 
+                a.setAttribute("data-bs-target", "#exampleModal");
+                let img = document.createElement("img");        
+                img.src = `https://image.tmdb.org/t/p/w500/${j.poster_path}`;
+                div.append(img);
+                div.append(a);
+                div.append(p);
+                row.append(div);
+            });
+        }
+    } else{
+        alertify.error('No pend to show');
+    }         
+    e.preventDefault();
+});
+
 function showElements (u) {
     logon.setAttribute('hidden', 'hidden');       
     login.setAttribute('hidden', 'hidden');       
@@ -135,9 +239,8 @@ function showElements (u) {
 
 try {
     for (var a in localStorage) {
-        if (JSON.parse(localStorage.getItem(a)).active == 1){
-            showElements(JSON.parse(localStorage.getItem(a)).name);       
-            var user_active = JSON.parse(localStorage.getItem(a)).user;
+          if (localStorage.getItem("user_active") != ""){
+            showElements(JSON.parse(localStorage.getItem(localStorage.getItem("user_active"))).name);       
             showNowPlaying ();
             break;
         }
@@ -152,8 +255,11 @@ login.addEventListener('click', (e) => {
     if (JSON.parse(localStorage.getItem(loginEmail.value))){
         let existing = JSON.parse(localStorage.getItem(loginEmail.value));
         if (loginPass.value === existing.password ){
+            const h1 = document.querySelector("h1");
+            h1.textContent = "";
             existing.active = 1;
             localStorage.setItem(loginEmail.value, JSON.stringify(existing));
+            localStorage.setItem("user_active", loginEmail.value);
             showElements(existing.name);       
             window.location.href = "index.html";
         }else{
@@ -166,10 +272,10 @@ login.addEventListener('click', (e) => {
 });
 
 logout.addEventListener('click', (e) => {
-    if (JSON.parse(localStorage.getItem(user_active))){
-        let existing = JSON.parse(localStorage.getItem(user_active));
+    if (localStorage.getItem("user_active") != ""){
+        let existing = JSON.parse(localStorage.getItem(localStorage.getItem("user_active")));
         existing.active = 0;
-        localStorage.setItem(user_active, JSON.stringify(existing));
+        localStorage.setItem(localStorage.getItem("user_active"), JSON.stringify(existing));
         fav.setAttribute('hidden', 'hidden');       
         pend.setAttribute('hidden', 'hidden');       
         logout.setAttribute('hidden', 'hidden');       
@@ -177,8 +283,10 @@ logout.addEventListener('click', (e) => {
         login.removeAttribute('hidden');       
         user_hello.setAttribute('hidden', 'hidden');       
         user_hello.textContent = "";
+        localStorage.setItem("user_active", "");
         alertify.success('User successfully logout');
         row.textContent = "";
+        h1.textContent = "Login/Logon for more fun!";
       }
       else{
         alertify.error('No user logged');
